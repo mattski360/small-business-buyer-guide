@@ -1,0 +1,320 @@
+{
+ "fy10_19": {
+  "ALL": {
+   "desc": "",
+   "n": 478963,
+   "co_rate": 0.0713061342942983,
+   "co_dollar": 0.029206481100360757,
+   "median": 125000.0,
+   "own": {
+    "n": 9572,
+    "co_rate": 0.04554951943167572,
+    "co_dollar": 0.022458191793213157,
+    "median": 499800.0
+   },
+   "ages": {
+    "Existing, 5 or more years": 188514,
+    "Startup, Loan Funds will Open Business": 72415,
+    "New, Less than 1 Year old": 45965,
+    "Existing or more than 2 years old": 45750,
+    "Unanswered": 42203,
+    "Less than 4 years old but at least 3": 29295,
+    "Less than 3 years old but at least 2": 24968,
+    "Less than 5 years old but at least 4": 18498,
+    "Change of Ownership": 9572,
+    "": 1757,
+    "New Business or 2 years or less": 26
+   },
+   "term": 84.0,
+   "rate": 6.0,
+   "fixed_share": 0.2159289966030779
+  },
+  "238220": {
+   "desc": "Plumbing, Heating, and Air-Conditioning Contractors",
+   "n": 6523,
+   "co_rate": 0.06392764065613982,
+   "co_dollar": 0.03828149212513554,
+   "median": 75000.0,
+   "own": {
+    "n": 129,
+    "co_rate": 0.05426356589147287,
+    "co_dollar": 0.04236301290594926,
+    "median": 720200.0
+   },
+   "ages": {
+    "Existing, 5 or more years": 3184,
+    "Existing or more than 2 years old": 906,
+    "Unanswered": 486,
+    "New, Less than 1 Year old": 430,
+    "Less than 4 years old but at least 3": 403,
+    "Startup, Loan Funds will Open Business": 386,
+    "Less than 3 years old but at least 2": 311,
+    "Less than 5 years old but at least 4": 273,
+    "Change of Ownership": 129,
+    "": 15
+   },
+   "term": 84.0,
+   "rate": 6.25,
+   "fixed_share": 0.21232561704737085
+  },
+  "811192": {
+   "desc": "Car Washes",
+   "n": 2195,
+   "co_rate": 0.05011389521640091,
+   "co_dollar": 0.012126750978996981,
+   "median": 745000.0,
+   "own": {
+    "n": 108,
+    "co_rate": 0.009259259259259259,
+    "co_dollar": 0.003980164194879323,
+    "median": 1984500.0
+   },
+   "ages": {
+    "Existing, 5 or more years": 792,
+    "Startup, Loan Funds will Open Business": 463,
+    "New, Less than 1 Year old": 218,
+    "Unanswered": 182,
+    "Existing or more than 2 years old": 152,
+    "Less than 4 years old but at least 3": 119,
+    "Change of Ownership": 108,
+    "Less than 3 years old but at least 2": 86,
+    "Less than 5 years old but at least 4": 63,
+    "": 12
+   },
+   "term": 252.0,
+   "rate": 6.0,
+   "fixed_share": 0.1284738041002278
+  },
+  "812310": {
+   "desc": "Coin-Operated Laundries and Drycleaners",
+   "n": 1665,
+   "co_rate": 0.04084084084084084,
+   "co_dollar": 0.011633007293131123,
+   "median": 287000.0,
+   "own": {
+    "n": 71,
+    "co_rate": 0.04225352112676056,
+    "co_dollar": 0.004947876931907004,
+    "median": 392000.0
+   },
+   "ages": {
+    "Existing, 5 or more years": 663,
+    "Startup, Loan Funds will Open Business": 325,
+    "New, Less than 1 Year old": 167,
+    "Unanswered": 117,
+    "Less than 4 years old but at least 3": 114,
+    "Existing or more than 2 years old": 84,
+    "Less than 3 years old but at least 2": 71,
+    "Change of Ownership": 71,
+    "Less than 5 years old but at least 4": 44,
+    "": 9
+   },
+   "term": 120.0,
+   "rate": 5.75,
+   "fixed_share": 0.17597597597597597
+  },
+  "561730": {
+   "desc": "Landscaping Services",
+   "n": 6884,
+   "co_rate": 0.06391632771644393,
+   "co_dollar": 0.03928494603531477,
+   "median": 50000.0,
+   "own": {
+    "n": 122,
+    "co_rate": 0.04918032786885246,
+    "co_dollar": 0.021545808490388167,
+    "median": 374800.0
+   },
+   "ages": {
+    "Existing, 5 or more years": 3268,
+    "Existing or more than 2 years old": 820,
+    "Unanswered": 592,
+    "New, Less than 1 Year old": 520,
+    "Startup, Loan Funds will Open Business": 462,
+    "Less than 4 years old but at least 3": 423,
+    "Less than 3 years old but at least 2": 376,
+    "Less than 5 years old but at least 4": 275,
+    "Change of Ownership": 122,
+    "": 25,
+    "New Business or 2 years or less": 1
+   },
+   "term": 84.0,
+   "rate": 6.25,
+   "fixed_share": 0.27614758861127253
+  },
+  "722513": {
+   "desc": "Limited-Service Restaurants",
+   "n": 12335,
+   "co_rate": 0.09379813538710985,
+   "co_dollar": 0.04985884172913664,
+   "median": 245000.0,
+   "own": {
+    "n": 569,
+    "co_rate": 0.061511423550087874,
+    "co_dollar": 0.03673622930046333,
+    "median": 261000.0
+   },
+   "ages": {
+    "Startup, Loan Funds will Open Business": 4728,
+    "Existing, 5 or more years": 2712,
+    "New, Less than 1 Year old": 1165,
+    "Unanswered": 990,
+    "Existing or more than 2 years old": 902,
+    "Change of Ownership": 569,
+    "Less than 3 years old but at least 2": 482,
+    "Less than 4 years old but at least 3": 375,
+    "Less than 5 years old but at least 4": 319,
+    "": 90,
+    "New Business or 2 years or less": 3
+   },
+   "term": 120.0,
+   "rate": 6.0,
+   "fixed_share": 0.20672882042967167
+  }
+ },
+ "fy20p": {
+  "ALL": {
+   "desc": "",
+   "n": 317155,
+   "co_rate": 0.0217338525326733,
+   "co_dollar": 0.0052453271045075954,
+   "median": 200000.0,
+   "own": {
+    "n": 34978,
+    "co_rate": 0.009663216879181199,
+    "co_dollar": 0.004588086254637916,
+    "median": 700000.0
+   },
+   "ages": {
+    "Existing or more than 2 years old": 174220,
+    "New Business or 2 years or less": 52532,
+    "Startup, Loan Funds will Open Business": 51565,
+    "Change of Ownership": 34978,
+    "Unanswered": 3678,
+    "": 182
+   },
+   "term": 120.0,
+   "rate": 9.0,
+   "fixed_share": 0.16594094370260598
+  },
+  "238220": {
+   "desc": "Plumbing, Heating, and Air-Conditioning Contractors",
+   "n": 5492,
+   "co_rate": 0.018572469045884922,
+   "co_dollar": 0.006181004839174993,
+   "median": 168650.0,
+   "own": {
+    "n": 700,
+    "co_rate": 0.0014285714285714286,
+    "co_dollar": 0.00020357858849892623,
+    "median": 755500.0
+   },
+   "ages": {
+    "Existing or more than 2 years old": 3440,
+    "New Business or 2 years or less": 812,
+    "Change of Ownership": 700,
+    "Startup, Loan Funds will Open Business": 475,
+    "Unanswered": 60,
+    "": 5
+   },
+   "term": 120.0,
+   "rate": 9.5,
+   "fixed_share": 0.17079388201019666
+  },
+  "811192": {
+   "desc": "Car Washes",
+   "n": 1478,
+   "co_rate": 0.016238159675236806,
+   "co_dollar": 0.0014420180782922444,
+   "median": 741450.0,
+   "own": {
+    "n": 270,
+    "co_rate": 0.003703703703703704,
+    "co_dollar": 0.00016837730795937511,
+    "median": 1227450.0
+   },
+   "ages": {
+    "Existing or more than 2 years old": 527,
+    "Startup, Loan Funds will Open Business": 348,
+    "New Business or 2 years or less": 315,
+    "Change of Ownership": 270,
+    "Unanswered": 17,
+    "": 1
+   },
+   "term": 300.0,
+   "rate": 7.109999999999999,
+   "fixed_share": 0.16170500676589986
+  },
+  "812310": {
+   "desc": "Coin-Operated Laundries and Drycleaners",
+   "n": 940,
+   "co_rate": 0.011702127659574468,
+   "co_dollar": 0.0038376836094508775,
+   "median": 451800.0,
+   "own": {
+    "n": 217,
+    "co_rate": 0.009216589861751152,
+    "co_dollar": 0.004584807786950163,
+    "median": 544700.0
+   },
+   "ages": {
+    "Existing or more than 2 years old": 327,
+    "Change of Ownership": 217,
+    "New Business or 2 years or less": 195,
+    "Startup, Loan Funds will Open Business": 193,
+    "Unanswered": 8
+   },
+   "term": 120.0,
+   "rate": 8.0,
+   "fixed_share": 0.18829787234042553
+  },
+  "561730": {
+   "desc": "Landscaping Services",
+   "n": 5424,
+   "co_rate": 0.018805309734513276,
+   "co_dollar": 0.0073289612825986295,
+   "median": 100000.0,
+   "own": {
+    "n": 584,
+    "co_rate": 0.015410958904109588,
+    "co_dollar": 0.005856420715881134,
+    "median": 563100.0
+   },
+   "ages": {
+    "Existing or more than 2 years old": 3216,
+    "New Business or 2 years or less": 987,
+    "Change of Ownership": 584,
+    "Startup, Loan Funds will Open Business": 566,
+    "Unanswered": 70,
+    "": 1
+   },
+   "term": 120.0,
+   "rate": 9.05,
+   "fixed_share": 0.2016961651917404
+  },
+  "722513": {
+   "desc": "Limited-Service Restaurants",
+   "n": 10480,
+   "co_rate": 0.020610687022900764,
+   "co_dollar": 0.008530389669987194,
+   "median": 339000.0,
+   "own": {
+    "n": 1515,
+    "co_rate": 0.018481848184818482,
+    "co_dollar": 0.015144089025170806,
+    "median": 392000.0
+   },
+   "ages": {
+    "Startup, Loan Funds will Open Business": 4014,
+    "Existing or more than 2 years old": 3246,
+    "New Business or 2 years or less": 1618,
+    "Change of Ownership": 1515,
+    "Unanswered": 84,
+    "": 3
+   },
+   "term": 120.0,
+   "rate": 8.99,
+   "fixed_share": 0.16068702290076337
+  }
+ }
+}
