@@ -3,9 +3,9 @@
 Every page is built from a cited public source with a "last verified" date. No rules explainers; SBA content stays to financing data.
 
 Industry deep dives (SBA 7(a)/504 FOIA: counts, median loan, charge-off, terms, acquisition share, plus BizBuySell figures where published):
-1. Auto repair shops (NAICS 811111)
-2. Dental practices (621210)
-3. Veterinary clinics (541940)
+1. Auto repair shops (NAICS 811111) — DONE Oct 28, 2026: docs/auto-repair-shop-sba-loan-data.html
+2. Dental practices (621210) — DONE Oct 28, 2026: docs/dental-practice-sba-loan-data.html
+3. Veterinary clinics (541940) — DONE Oct 28, 2026: docs/veterinary-clinic-sba-loan-data.html
 4. Pest control (561710)
 5. Janitorial services (561720)
 6. Electrical contractors (238210)
@@ -26,5 +26,5 @@ Cross-industry data pages:
 19. Quarterly "What businesses sell for" update (each new BizBuySell Insight Report)
 20. Census Business Dynamics: business survival/exit rates by industry (Census BDS)
 
-Refresh: re-run data/analyze_sba_7a.py each quarter when SBA posts new FOIA files.
+Refresh: re-run data/analyze_sba_7a.py and data/analyze_industries.py (needs the 504 FOIA file and Census CBP files) each quarter when SBA posts new FOIA files.
 Affiliate slots in HTML are marked `<!-- AFFILIATE-SLOT:name -->`.
