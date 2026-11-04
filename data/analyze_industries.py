@@ -2,7 +2,7 @@
 """Industry deep dives: SBA 7(a) + 504 FOIA (as of 2026-06-30) and Census CBP 2023.
 Run from a folder with the FOIA CSVs and cbp/cbp23us.txt, cbp/cbp23st.txt. Writes industry-deep-dives.json."""
 import csv,json,statistics as st,collections as C,sys
-CODES=["811111","621210","541940"]
+CODES=["811111","621210","541940","561710","561720","238210"]
 med=lambda a:st.median(a) if a else None
 def s7(R):
   n=len(R)

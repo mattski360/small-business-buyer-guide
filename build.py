@@ -119,7 +119,11 @@ SRC_DD=[("SBA 7(a) & 504 FOIA loan-level data (files as of June 30, 2026)",FOIA)
 A10=S["fy10_19"]["ALL"]; A20=S["fy20p"]["ALL"]; A20own=A20["own"]["n"]/A20["n"]
 DDS=[("811111","auto-repair-shop-sba-loan-data.html","Auto repair shops","auto repair shop"),
      ("621210","dental-practice-sba-loan-data.html","Dental practices","dental practice"),
-     ("541940","veterinary-clinic-sba-loan-data.html","Veterinary clinics","veterinary clinic")]
+     ("541940","veterinary-clinic-sba-loan-data.html","Veterinary clinics","veterinary clinic"),
+     ("561710","pest-control-business-sba-loan-data.html","Pest control companies","pest control company"),
+     ("561720","janitorial-business-sba-loan-data.html","Janitorial services","janitorial company"),
+     ("238210","electrical-contractor-sba-loan-data.html","Electrical contractors","electrical contractor")]
+V3="November 4, 2026"; VDATE={"561710":V3,"561720":V3,"238210":V3}
 dm=lambda x:m(x) if x is not None else "—"; dp=lambda x:p(x) if x is not None else "—"
 def dd_body(code,name,one,intro,notes):
   d=D[code]; a,b=d["7a_fy10_19"],d["7a_fy20p"]; e,f=d["504_fy10_19"],d["504_fy20p"]; us,ut=d["cbp_us"],d["cbp_ut"]
@@ -185,9 +189,31 @@ def dd(code):
 <li>Practice purchases were {b['own_share']:.1%} of FY2020+ dental 7(a) loans. Startups were a bigger group ({c(b['ages'].get('Startup, Loan Funds will Open Business',0))} loans flagged "Startup").</li>
 <li>Utah payroll per employee ({m(ut['pay_per_emp'])}) was well below the U.S. figure ({m(us['pay_per_emp'])}) in 2023. This data doesn't say why (staff mix, part-time share, and how owner-dentists are paid could all play a part), so don't read it as a wage benchmark.</li>
 <li>Franchise loans are rare here ({b['franchise_share']:.1%} since FY2020).</li>""")
+  if code=="561710": return (
+   f"Pest control is a route-based service business with about {c(us['est'])} U.S. companies with employees (Census, 2023). Here's what SBA 7(a) and 504 loan data say about how these companies get financed and bought, and how the loans turned out.",
+   f"""<li>Pest control loans charged off less often than average by count: {p(a['co_rate'])} in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans. By dollars the loss rate ({p(a['co_dollar'])}) was close to the all-loan figure ({p(A10['co_dollar'])}).</li>
+<li>Franchising has grown here: {b['franchise_share']:.0%} of FY2020+ pest control 7(a) loans went to franchise locations, up from {a['franchise_share']:.0%} in FY2010-2019. Startups were also a large group ({c(b['ages'].get('Startup, Loan Funds will Open Business',0))} FY2020+ loans flagged "Startup").</li>
+<li>Buyouts were {b['own_share']:.1%} of FY2020+ pest control 7(a) loans, about the all-industry share ({A20own:.1%}), with a median acquisition loan of {m(b['own_median'])}. None of those {c(b['own_n'])} acquisition loans had been charged off as of June 2026, but most are still young.</li>
+<li>Most companies are small: {us['share_under10']:.0%} of U.S. pest control establishments with employees had fewer than 10 ({ut['share_under10']:.0%} in Utah). Inference (ours): at that size, the customer list and service routes are much of what a buyer is paying for, so check how many customers are on recurring contracts.</li>
+<li>Utah is a small sample ({c(ut['est'])} establishments; {c(b['ut_n'])} 7(a) loans since FY2020), so treat the Utah medians loosely.</li>""")
+  if code=="561720": return (
+   f"Commercial cleaning companies are a common first acquisition because they're inexpensive to buy into. Here's what {c(a['n']+b['n'])} SBA 7(a) loans since FY2010, plus 504 and Census data, show about financing one and how those loans turned out.",
+   f"""<li>Janitorial loans had a higher loss rate than average: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans, and {p(a['co_dollar'])} of dollars vs {p(A10['co_dollar'])}. That's the highest of our industry deep dives so far.</li>
+<li>Loans are small. The FY2010-2019 median 7(a) loan was {m(a['median'])} with a median {a['term']:.0f}-month term; since FY2020 the median is {m(b['median'])}.</li>
+<li>Buying an existing company was {b['own_share']:.1%} of FY2020+ janitorial 7(a) loans, about the all-industry share ({A20own:.1%}), with a median acquisition loan of {m(b['own_median'])}. Franchise locations got {b['franchise_share']:.0%} of FY2020+ loans.</li>
+<li>Payroll per employee was about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023), the lowest of our deep dives. Census doesn't separate full- and part-time staff, so part-time cleaning shifts likely pull this down (our inference); don't read it as a wage rate.</li>
+<li>Most establishments are small ({us['share_under10']:.0%} under 10 employees), but {c(us['n20plus'])} U.S. establishments had 20 or more, which is why the average is {us['emp_per_est']:.1f} employees. Inference (ours): with low switching costs for customers, contract length and customer concentration deserve extra diligence.</li>""")
+  if code=="238210": return (
+   f"Electrical contracting is one of the larger skilled trades, with about {c(us['est'])} U.S. contractors with employees (Census, 2023). Here's what SBA 7(a) and 504 loan data say about financing and buying one.",
+   f"""<li>By count, electrical contractor loans charged off at about the all-loan rate: {p(a['co_rate'])} in FY2010-2019 vs {p(A10['co_rate'])}. By dollars the loss rate was higher ({p(a['co_dollar'])} of approved dollars charged off vs {p(A10['co_dollar'])} for all 7(a) loans).</li>
+<li>Acquisition loans are big. The median FY2020+ change-of-ownership loan was {m(b['own_median'])}, above the all-industry median of {m(A20['own']['median'])} and second only to veterinary clinics among our deep dives. Buyouts were {b['own_share']:.1%} of this industry's FY2020+ 7(a) loans, below the all-industry share ({A20own:.1%}).</li>
+<li>Franchising is rare ({b['franchise_share']:.1%} of FY2020+ loans), so nearly every financed contractor is independent.</li>
+<li>Payroll per employee averaged {m(us['pay_per_emp'])} nationally and {m(ut['pay_per_emp'])} in Utah (2023). Utah contractors were bigger on average ({ut['emp_per_est']:.1f} employees vs {us['emp_per_est']:.1f} nationally).</li>
+<li>Inference (ours): in a licensed trade, the business may depend on the owner's or a key employee's electrical license, so confirm who holds the license and whether that person stays after the sale. The loan data doesn't capture this.</li>
+<li>SBA 504 loans, which usually finance a building or major equipment, numbered {c(d['504_fy20p']['n'])} since FY2020 with a median CDC portion of {m(d['504_fy20p']['median'])}.</li>""")
   return (
    f"Veterinary clinics are bigger than most small businesses (about {us['emp_per_est']:.0f} employees per location on average) and borrow more. Here's what SBA 7(a) and 504 data and Census counts show for veterinary services.",
-   f"""<li>Vet loans had the lowest loss record of our three industry deep dives so far: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans.</li>
+   f"""<li>Vet loans had the lowest loss record of our industry deep dives so far: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans.</li>
 <li>They're large and long. The FY2010-2019 median term was {a['term']:.0f} months vs {A10['term']:.0f} for all 7(a). Inference (ours): terms that long are consistent with real estate being part of many of these loans; the data doesn't say what each loan financed.</li>
 <li>The median FY2020+ change-of-ownership loan was {m(b['own_median'])}, and buyouts were {b['own_share']:.1%} of this industry's 7(a) loans.</li>
 <li>Only {us['share_under10']:.0%} of U.S. vet clinics with employees had fewer than 10 people, and {c(us['n20plus'])} had 20 or more, so this is a staffing-heavy business compared to auto repair or dental.</li>
@@ -196,7 +222,7 @@ for code,fn,name,one in DDS:
   intro,notes=dd(code)
   page(fn,f"Buying {('an ' if one[0] in 'aeiou' else 'a ')+one}: SBA loan data and industry numbers",
    f"{name} (NAICS {code}): SBA 7(a) and 504 loan counts, sizes, acquisition loans, and charge-off rates, plus Census establishment counts for the U.S. and Utah.",
-   dd_body(code,name,one,intro,notes),SRC_DD,V2)
+   dd_body(code,name,one,intro,notes),SRC_DD,VDATE.get(code,V2))
 
 page("index.html","Data-driven guides for buying a small business","Independent, data-first guides for small-business buyers: industry outcomes, sale multiples, and how deals get financed.",
  f"""<h1>Buying a small business? Start with the data.</h1>
