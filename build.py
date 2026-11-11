@@ -122,8 +122,11 @@ DDS=[("811111","auto-repair-shop-sba-loan-data.html","Auto repair shops","auto r
      ("541940","veterinary-clinic-sba-loan-data.html","Veterinary clinics","veterinary clinic"),
      ("561710","pest-control-business-sba-loan-data.html","Pest control companies","pest control company"),
      ("561720","janitorial-business-sba-loan-data.html","Janitorial services","janitorial company"),
-     ("238210","electrical-contractor-sba-loan-data.html","Electrical contractors","electrical contractor")]
-V3="November 4, 2026"; VDATE={"561710":V3,"561720":V3,"238210":V3}
+     ("238210","electrical-contractor-sba-loan-data.html","Electrical contractors","electrical contractor"),
+     ("238160","roofing-contractor-sba-loan-data.html","Roofing contractors","roofing contractor"),
+     ("624410","daycare-child-care-sba-loan-data.html","Child care centers","child care center"),
+     ("713940","fitness-center-gym-sba-loan-data.html","Fitness centers and gyms","fitness center or gym")]
+V3="November 4, 2026"; V4="November 11, 2026"; VDATE={"561710":V3,"561720":V3,"238210":V3,"238160":V4,"624410":V4,"713940":V4}
 dm=lambda x:m(x) if x is not None else "—"; dp=lambda x:p(x) if x is not None else "—"
 def dd_body(code,name,one,intro,notes):
   d=D[code]; a,b=d["7a_fy10_19"],d["7a_fy20p"]; e,f=d["504_fy10_19"],d["504_fy20p"]; us,ut=d["cbp_us"],d["cbp_ut"]
@@ -198,19 +201,41 @@ def dd(code):
 <li>Utah is a small sample ({c(ut['est'])} establishments; {c(b['ut_n'])} 7(a) loans since FY2020), so treat the Utah medians loosely.</li>""")
   if code=="561720": return (
    f"Commercial cleaning companies are a common first acquisition because they're inexpensive to buy into. Here's what {c(a['n']+b['n'])} SBA 7(a) loans since FY2010, plus 504 and Census data, show about financing one and how those loans turned out.",
-   f"""<li>Janitorial loans had a higher loss rate than average: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans, and {p(a['co_dollar'])} of dollars vs {p(A10['co_dollar'])}. That's the highest of our industry deep dives so far.</li>
+   f"""<li>Janitorial loans had a higher loss rate than average: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans, and {p(a['co_dollar'])} of dollars vs {p(A10['co_dollar'])}. That was the highest of our first six deep dives; roofing and fitness centers have since come in slightly higher.</li>
 <li>Loans are small. The FY2010-2019 median 7(a) loan was {m(a['median'])} with a median {a['term']:.0f}-month term; since FY2020 the median is {m(b['median'])}.</li>
 <li>Buying an existing company was {b['own_share']:.1%} of FY2020+ janitorial 7(a) loans, about the all-industry share ({A20own:.1%}), with a median acquisition loan of {m(b['own_median'])}. Franchise locations got {b['franchise_share']:.0%} of FY2020+ loans.</li>
-<li>Payroll per employee was about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023), the lowest of our deep dives. Census doesn't separate full- and part-time staff, so part-time cleaning shifts likely pull this down (our inference); don't read it as a wage rate.</li>
+<li>Payroll per employee was about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023), among the lowest of our deep dives (only child care and fitness centers are lower). Census doesn't separate full- and part-time staff, so part-time cleaning shifts likely pull this down (our inference); don't read it as a wage rate.</li>
 <li>Most establishments are small ({us['share_under10']:.0%} under 10 employees), but {c(us['n20plus'])} U.S. establishments had 20 or more, which is why the average is {us['emp_per_est']:.1f} employees. Inference (ours): with low switching costs for customers, contract length and customer concentration deserve extra diligence.</li>""")
   if code=="238210": return (
    f"Electrical contracting is one of the larger skilled trades, with about {c(us['est'])} U.S. contractors with employees (Census, 2023). Here's what SBA 7(a) and 504 loan data say about financing and buying one.",
    f"""<li>By count, electrical contractor loans charged off at about the all-loan rate: {p(a['co_rate'])} in FY2010-2019 vs {p(A10['co_rate'])}. By dollars the loss rate was higher ({p(a['co_dollar'])} of approved dollars charged off vs {p(A10['co_dollar'])} for all 7(a) loans).</li>
-<li>Acquisition loans are big. The median FY2020+ change-of-ownership loan was {m(b['own_median'])}, above the all-industry median of {m(A20['own']['median'])} and second only to veterinary clinics among our deep dives. Buyouts were {b['own_share']:.1%} of this industry's FY2020+ 7(a) loans, below the all-industry share ({A20own:.1%}).</li>
+<li>Acquisition loans are big. The median FY2020+ change-of-ownership loan was {m(b['own_median'])}, above the all-industry median of {m(A20['own']['median'])} and among the highest of our deep dives (behind roofing and veterinary clinics). Buyouts were {b['own_share']:.1%} of this industry's FY2020+ 7(a) loans, below the all-industry share ({A20own:.1%}).</li>
 <li>Franchising is rare ({b['franchise_share']:.1%} of FY2020+ loans), so nearly every financed contractor is independent.</li>
 <li>Payroll per employee averaged {m(us['pay_per_emp'])} nationally and {m(ut['pay_per_emp'])} in Utah (2023). Utah contractors were bigger on average ({ut['emp_per_est']:.1f} employees vs {us['emp_per_est']:.1f} nationally).</li>
 <li>Inference (ours): in a licensed trade, the business may depend on the owner's or a key employee's electrical license, so confirm who holds the license and whether that person stays after the sale. The loan data doesn't capture this.</li>
 <li>SBA 504 loans, which usually finance a building or major equipment, numbered {c(d['504_fy20p']['n'])} since FY2020 with a median CDC portion of {m(d['504_fy20p']['median'])}.</li>""")
+  if code=="238160": return (
+   f"Roofing is a big, fragmented trade: about {c(us['est'])} U.S. roofing contractors with employees (Census, 2023), {us['share_under10']:.0%} of them with fewer than 10 people. Here's what SBA 7(a) and 504 loan data say about financing and buying one, and how those loans turned out.",
+   f"""<li>Roofing had the weakest loan record of our deep dives by dollars: {p(a['co_dollar'])} of approved FY2010-2019 dollars were charged off vs {p(A10['co_dollar'])} for all 7(a) loans. By count, {p(a['co_rate'])} were charged off vs {p(A10['co_rate'])} overall (about tied with fitness centers for highest).</li>
+<li>Acquisition loans are large: the median FY2020+ change-of-ownership loan was {m(b['own_median'])}, the highest of our deep dives (veterinary clinics are close behind), vs {m(A20['own']['median'])} across all industries. Buyouts were {b['own_share']:.1%} of this industry's FY2020+ 7(a) loans.</li>
+<li>Older acquisition data is thin: only {c(a['own_n'])} FY2010-2019 roofing loans carry the "Change of Ownership" label, so don't lean on that column.</li>
+<li>Franchising is new here: {b['franchise_share']:.1%} of FY2020+ roofing 7(a) loans went to franchise locations, up from {a['franchise_share']:.1%} in FY2010-2019.</li>
+<li>Utah roofers were a bit bigger on average ({ut['emp_per_est']:.1f} employees vs {us['emp_per_est']:.1f} nationally), with lower payroll per employee ({m(ut['pay_per_emp'])} vs {m(us['pay_per_emp'])}).</li>
+<li>Inference (ours): roofing revenue can swing with weather and storm seasons, which may help explain the higher loss rates. Ask a seller for several years of monthly revenue, not just annual totals. The loan data doesn't show this directly.</li>""")
+  if code=="624410": return (
+   f"Child care centers are one of the most SBA-financed service businesses. Here's what {c(a['n']+b['n'])} SBA 7(a) loans since FY2010, plus {c(d['504_fy10_19']['n']+d['504_fy20p']['n'])} 504 loans and Census counts, show about financing and buying one.",
+   f"""<li>Child care loans held up well: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans, and only {p(a['co_dollar'])} of dollars vs {p(A10['co_dollar'])}.</li>
+<li>Buying an existing center is common: {b['own_share']:.1%} of FY2020+ child care 7(a) loans were change-of-ownership loans, above the all-industry share ({A20own:.1%}). The median acquisition loan was {m(b['own_median'])}.</li>
+<li>Startups are a big group too ({c(b['ages'].get('Startup, Loan Funds will Open Business',0))} FY2020+ loans flagged "Startup"), and franchise locations got {b['franchise_share']:.0%} of FY2020+ loans.</li>
+<li>Real estate shows up often (our inference from the loan types): SBA 504 loans, which usually finance a building, numbered {c(d['504_fy20p']['n'])} since FY2020 with a median CDC portion of {m(d['504_fy20p']['median'])}, and the median FY2010-2019 7(a) acquisition loan had a {a['own_term']:.0f}-month term.</li>
+<li>Payroll per employee was about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023). Census mixes full- and part-time staff, so don't read that as a wage rate. Inference (ours): with staffing ratios set by state licensing rules, labor cost and staff turnover deserve close diligence.</li>""")
+  if code=="713940": return (
+   f"Gyms and fitness centers are mostly financed as new openings, and a large share are franchises. Here's what {c(a['n']+b['n'])} SBA 7(a) loans since FY2010, plus 504 and Census data, show about financing and buying one.",
+   f"""<li>Fitness loans charged off at {p(a['co_rate'])} by count in FY2010-2019, the highest of our deep dives (about tied with roofing) and well above all 7(a) loans ({p(A10['co_rate'])}). By dollars, {p(a['co_dollar'])} were charged off vs {p(A10['co_dollar'])} overall.</li>
+<li>Startups dominate: {c(b['ages'].get('Startup, Loan Funds will Open Business',0))} of {c(b['n'])} FY2020+ fitness 7(a) loans were flagged "Startup", and {b['franchise_share']:.0%} went to franchise locations, the highest franchise share of our deep dives.</li>
+<li>Buying an existing gym is less common: change-of-ownership loans were {b['own_share']:.1%} of FY2020+ loans (all industries: {A20own:.1%}), with a median acquisition loan of {m(b['own_median'])}, well below the all-industry median of {m(A20['own']['median'])}.</li>
+<li>Payroll per employee was the lowest of our deep dives: about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023). Inference (ours): part-time trainers and front-desk staff likely pull this down; it isn't a wage rate.</li>
+<li>Utah gyms were bigger on average ({ut['emp_per_est']:.1f} employees vs {us['emp_per_est']:.1f} nationally). Inference (ours): with membership revenue, check member counts, churn and how much revenue is prepaid before you buy.</li>""")
   return (
    f"Veterinary clinics are bigger than most small businesses (about {us['emp_per_est']:.0f} employees per location on average) and borrow more. Here's what SBA 7(a) and 504 data and Census counts show for veterinary services.",
    f"""<li>Vet loans had the lowest loss record of our industry deep dives so far: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans.</li>

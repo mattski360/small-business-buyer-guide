@@ -9,9 +9,9 @@ Industry deep dives (SBA 7(a)/504 FOIA: counts, median loan, charge-off, terms, 
 4. Pest control (561710) — DONE Nov 4, 2026: docs/pest-control-business-sba-loan-data.html
 5. Janitorial services (561720) — DONE Nov 4, 2026: docs/janitorial-business-sba-loan-data.html
 6. Electrical contractors (238210) — DONE Nov 4, 2026: docs/electrical-contractor-sba-loan-data.html
-7. Roofing contractors (238160)
-8. Daycare / child care (624410)
-9. Fitness centers (713940)
+7. Roofing contractors (238160) — DONE Nov 11, 2026: docs/roofing-contractor-sba-loan-data.html
+8. Daycare / child care (624410) — DONE Nov 11, 2026: docs/daycare-child-care-sba-loan-data.html
+9. Fitness centers (713940) — DONE Nov 11, 2026: docs/fitness-center-gym-sba-loan-data.html
 10. Self-storage / lessors of miniwarehouses (531130)
 11. Hotels and motels (721110)
 12. Gas stations with convenience stores (447110 / 457110)
