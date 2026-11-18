@@ -2,7 +2,8 @@
 """Industry deep dives: SBA 7(a) + 504 FOIA (as of 2026-06-30) and Census CBP 2023.
 Run from a folder with the FOIA CSVs and cbp/cbp23us.txt, cbp/cbp23st.txt. Writes industry-deep-dives.json."""
 import csv,json,statistics as st,collections as C,sys
-CODES=["811111","621210","541940","561710","561720","238210","238160","624410","713940"]
+CODES=["811111","621210","541940","561710","561720","238210","238160","624410","713940","531130","721110","447110"]
+ALIAS={"457110":"447110"}  # 2022 NAICS gas stations w/ convenience stores -> 2017 code used by CBP 2023
 med=lambda a:st.median(a) if a else None
 def s7(R):
   n=len(R)
@@ -23,7 +24,7 @@ def s7(R):
 def load(fn,prog):
   out=C.defaultdict(list)
   for r in csv.DictReader(open(fn,newline='',encoding='latin-1')):
-    c=r["NaicsCode"].strip(); s=r["LoanStatus"].strip().replace(" ","")
+    c=r["NaicsCode"].strip(); c=ALIAS.get(c,c); s=r["LoanStatus"].strip().replace(" ","")
     if s in("CANCLD","COMMIT","NOTFUNDED"): continue
     if c not in CODES and prog=="7a": continue
     x={"s":s,"amt":float(r["GrossApproval"] or 0),"co":float(r["GrossChargeOffAmount"] or 0),"age":r["BusinessAge"].strip(),

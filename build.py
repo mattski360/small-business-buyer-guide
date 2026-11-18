@@ -125,8 +125,11 @@ DDS=[("811111","auto-repair-shop-sba-loan-data.html","Auto repair shops","auto r
      ("238210","electrical-contractor-sba-loan-data.html","Electrical contractors","electrical contractor"),
      ("238160","roofing-contractor-sba-loan-data.html","Roofing contractors","roofing contractor"),
      ("624410","daycare-child-care-sba-loan-data.html","Child care centers","child care center"),
-     ("713940","fitness-center-gym-sba-loan-data.html","Fitness centers and gyms","fitness center or gym")]
-V3="November 4, 2026"; V4="November 11, 2026"; VDATE={"561710":V3,"561720":V3,"238210":V3,"238160":V4,"624410":V4,"713940":V4}
+     ("713940","fitness-center-gym-sba-loan-data.html","Fitness centers and gyms","fitness center or gym"),
+     ("531130","self-storage-facility-sba-loan-data.html","Self-storage facilities","self-storage facility"),
+     ("721110","hotel-motel-sba-loan-data.html","Hotels and motels","hotel or motel"),
+     ("447110","gas-station-convenience-store-sba-loan-data.html","Gas stations with convenience stores","gas station with a convenience store")]
+V3="November 4, 2026"; V4="November 11, 2026"; V5="November 18, 2026"; VDATE={"561710":V3,"561720":V3,"238210":V3,"238160":V4,"624410":V4,"713940":V4,"531130":V5,"721110":V5,"447110":V5}
 dm=lambda x:m(x) if x is not None else "—"; dp=lambda x:p(x) if x is not None else "—"
 def dd_body(code,name,one,intro,notes):
   d=D[code]; a,b=d["7a_fy10_19"],d["7a_fy20p"]; e,f=d["504_fy10_19"],d["504_fy20p"]; us,ut=d["cbp_us"],d["cbp_ut"]
@@ -178,7 +181,7 @@ def dd_body(code,name,one,intro,notes):
 <p>Other industry deep dives: {others}. See also <a href="sba-loan-chargeoff-rates-by-industry.html">charge-off rates by industry</a> and <a href="what-small-businesses-sell-for.html">what small businesses sell for</a>.</p>
 {aff("sba-acquisition-lender")}"""
 def dd(code):
-  d=D[code]; a,b,us,ut=d["7a_fy10_19"],d["7a_fy20p"],d["cbp_us"],d["cbp_ut"]
+  d=D[code]; a,b,us,ut=d["7a_fy10_19"],d["7a_fy20p"],d["cbp_us"],d["cbp_ut"]; e,f=d["504_fy10_19"],d["504_fy20p"]
   if code=="811111": return (
    f"There are about {c(us['est'])} auto repair shops with employees in the U.S. (Census, 2023), most of them small. Here's how SBA-backed loans to general automotive repair shops have been sized and how they turned out.",
    f"""<li>Auto repair loans charged off at {p(a['co_rate'])} by count in FY2010-2019, slightly below all 7(a) loans ({p(A10['co_rate'])}), and {p(a['co_dollar'])} of dollars vs {p(A10['co_dollar'])} overall.</li>
@@ -204,12 +207,12 @@ def dd(code):
    f"""<li>Janitorial loans had a higher loss rate than average: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans, and {p(a['co_dollar'])} of dollars vs {p(A10['co_dollar'])}. That was the highest of our first six deep dives; roofing and fitness centers have since come in slightly higher.</li>
 <li>Loans are small. The FY2010-2019 median 7(a) loan was {m(a['median'])} with a median {a['term']:.0f}-month term; since FY2020 the median is {m(b['median'])}.</li>
 <li>Buying an existing company was {b['own_share']:.1%} of FY2020+ janitorial 7(a) loans, about the all-industry share ({A20own:.1%}), with a median acquisition loan of {m(b['own_median'])}. Franchise locations got {b['franchise_share']:.0%} of FY2020+ loans.</li>
-<li>Payroll per employee was about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023), among the lowest of our deep dives (only child care and fitness centers are lower). Census doesn't separate full- and part-time staff, so part-time cleaning shifts likely pull this down (our inference); don't read it as a wage rate.</li>
+<li>Payroll per employee was about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023), among the lowest of our deep dives (only gas stations, child care and fitness centers are lower). Census doesn't separate full- and part-time staff, so part-time cleaning shifts likely pull this down (our inference); don't read it as a wage rate.</li>
 <li>Most establishments are small ({us['share_under10']:.0%} under 10 employees), but {c(us['n20plus'])} U.S. establishments had 20 or more, which is why the average is {us['emp_per_est']:.1f} employees. Inference (ours): with low switching costs for customers, contract length and customer concentration deserve extra diligence.</li>""")
   if code=="238210": return (
    f"Electrical contracting is one of the larger skilled trades, with about {c(us['est'])} U.S. contractors with employees (Census, 2023). Here's what SBA 7(a) and 504 loan data say about financing and buying one.",
    f"""<li>By count, electrical contractor loans charged off at about the all-loan rate: {p(a['co_rate'])} in FY2010-2019 vs {p(A10['co_rate'])}. By dollars the loss rate was higher ({p(a['co_dollar'])} of approved dollars charged off vs {p(A10['co_dollar'])} for all 7(a) loans).</li>
-<li>Acquisition loans are big. The median FY2020+ change-of-ownership loan was {m(b['own_median'])}, above the all-industry median of {m(A20['own']['median'])} and among the highest of our deep dives (behind roofing and veterinary clinics). Buyouts were {b['own_share']:.1%} of this industry's FY2020+ 7(a) loans, below the all-industry share ({A20own:.1%}).</li>
+<li>Acquisition loans are big. The median FY2020+ change-of-ownership loan was {m(b['own_median'])}, above the all-industry median of {m(A20['own']['median'])} and among the highest of the service and trade businesses in our deep dives (behind roofing and veterinary clinics; asset-heavy self-storage, gas stations and hotels are higher). Buyouts were {b['own_share']:.1%} of this industry's FY2020+ 7(a) loans, below the all-industry share ({A20own:.1%}).</li>
 <li>Franchising is rare ({b['franchise_share']:.1%} of FY2020+ loans), so nearly every financed contractor is independent.</li>
 <li>Payroll per employee averaged {m(us['pay_per_emp'])} nationally and {m(ut['pay_per_emp'])} in Utah (2023). Utah contractors were bigger on average ({ut['emp_per_est']:.1f} employees vs {us['emp_per_est']:.1f} nationally).</li>
 <li>Inference (ours): in a licensed trade, the business may depend on the owner's or a key employee's electrical license, so confirm who holds the license and whether that person stays after the sale. The loan data doesn't capture this.</li>
@@ -232,13 +235,37 @@ def dd(code):
   if code=="713940": return (
    f"Gyms and fitness centers are mostly financed as new openings, and a large share are franchises. Here's what {c(a['n']+b['n'])} SBA 7(a) loans since FY2010, plus 504 and Census data, show about financing and buying one.",
    f"""<li>Fitness loans charged off at {p(a['co_rate'])} by count in FY2010-2019, the highest of our deep dives (about tied with roofing) and well above all 7(a) loans ({p(A10['co_rate'])}). By dollars, {p(a['co_dollar'])} were charged off vs {p(A10['co_dollar'])} overall.</li>
-<li>Startups dominate: {c(b['ages'].get('Startup, Loan Funds will Open Business',0))} of {c(b['n'])} FY2020+ fitness 7(a) loans were flagged "Startup", and {b['franchise_share']:.0%} went to franchise locations, the highest franchise share of our deep dives.</li>
+<li>Startups dominate: {c(b['ages'].get('Startup, Loan Funds will Open Business',0))} of {c(b['n'])} FY2020+ fitness 7(a) loans were flagged "Startup", and {b['franchise_share']:.0%} went to franchise locations, among the highest franchise shares of our deep dives (only hotels and gas stations, where fuel-supply agreements count as franchises, are higher).</li>
 <li>Buying an existing gym is less common: change-of-ownership loans were {b['own_share']:.1%} of FY2020+ loans (all industries: {A20own:.1%}), with a median acquisition loan of {m(b['own_median'])}, well below the all-industry median of {m(A20['own']['median'])}.</li>
 <li>Payroll per employee was the lowest of our deep dives: about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023). Inference (ours): part-time trainers and front-desk staff likely pull this down; it isn't a wage rate.</li>
 <li>Utah gyms were bigger on average ({ut['emp_per_est']:.1f} employees vs {us['emp_per_est']:.1f} nationally). Inference (ours): with membership revenue, check member counts, churn and how much revenue is prepaid before you buy.</li>""")
+  if code=="531130": return (
+   f"Self-storage is a real-estate-heavy business with very few employees. Here's what {c(a['n']+b['n'])} SBA 7(a) loans and {c(e['n']+f['n'])} SBA 504 loans since FY2010, plus Census counts, show about financing and buying a facility (NAICS 531130, lessors of miniwarehouses and self-storage units).",
+   f"""<li>Self-storage loans had the lowest loss record of all our deep dives: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans, and just {a['co_dollar']:.2%} of approved dollars.</li>
+<li>Many loans fund new construction: {c(b['ages'].get('Startup, Loan Funds will Open Business',0))} of {c(b['n'])} FY2020+ 7(a) loans and {c(f['ages'].get('Startup, Loan Funds will Open Business',0))} of {c(f['n'])} FY2020+ 504 loans were flagged "Startup".</li>
+<li>Buyouts were {b['own_share']:.1%} of FY2020+ 7(a) loans (all industries: {A20own:.1%}), with a median acquisition loan of {m(b['own_median'])} and a median {b['own_term']:.0f}-month term. Inference (ours): a 25-year term is consistent with the loan mostly financing land and buildings; the data doesn't break out what each loan paid for.</li>
+<li>Franchising is uncommon ({b['franchise_share']:.1%} of FY2020+ 7(a) loans), and most of those franchise loans were portable-storage brands (UNITS, MI-BOX, Go Mini's) by SBA's FranchiseName field, not storage-facility brands.</li>
+<li>Staffing is minimal: {us['emp_per_est']:.1f} employees per establishment on average in the U.S. ({ut['emp_per_est']:.1f} in Utah), and {us['share_under10']:.0%} had fewer than 10 employees. Census counts only establishments with paid employees, so unstaffed or owner-run facilities aren't in these numbers. Inference (ours): with labor this light, value rests mostly on occupancy, rental rates and the real estate itself.</li>
+<li>Utah: {c(ut['est'])} establishments with employees (2023); {c(a['ut_n']+b['ut_n'])} 7(a) and {c(e['ut_n']+f['ut_n'])} 504 loans since FY2010.</li>""")
+  if code=="721110": return (
+   f"Hotels and motels are one of the biggest uses of SBA lending, and the loans are large. Here's what {c(a['n']+b['n'])} SBA 7(a) loans and {c(e['n']+f['n'])} SBA 504 loans since FY2010, plus Census counts, show about financing and buying one.",
+   f"""<li>These are the largest loans in our deep dives: the median FY2020+ 7(a) loan was {m(b['median'])}, and the median change-of-ownership loan was {m(b['own_median'])} (all industries: {m(A20['own']['median'])}).</li>
+<li>Buying an existing property is common: change-of-ownership loans were {b['own_share']:.1%} of FY2020+ hotel 7(a) loans vs {A20own:.1%} across all industries.</li>
+<li>Most financed hotels carry a brand: {b['franchise_share']:.0%} of FY2020+ 7(a) loans had a franchise code, the highest share of our deep dives. The most common brands in SBA's FranchiseName field were Quality Inn, Super 8, Days Inn, Motel 6 and Best Western.</li>
+<li>Losses: {p(a['co_rate'])} of FY2010-2019 7(a) hotel loans were charged off by count ({p(a['co_dollar'])} of dollars) vs {p(A10['co_rate'])} ({p(A10['co_dollar'])}) for all 7(a) loans. FY2010-2019 504 hotel loans charged off at {p(e['co_rate'])} vs {p(D['ALL504']['504_fy10_19']['co_rate'])} for all 504 loans.</li>
+<li>Hotels are staffing-heavy: {us['emp_per_est']:.1f} employees per establishment in the U.S. and {ut['emp_per_est']:.1f} in Utah (2023), with payroll per employee of about {m(us['pay_per_emp'])} nationally and {m(ut['pay_per_emp'])} in Utah. Census mixes full- and part-time staff, so that isn't a wage rate.</li>
+<li>Utah: {c(ut['est'])} establishments with employees; {c(b['ut_n'])} 7(a) loans since FY2020 (median {dm(b['ut_median'])}). Inference (ours): at these loan sizes, a buyer with a budget under about $1 million is mostly looking at small independent or economy-brand motels; check the brand's property-improvement requirements before pricing a deal.</li>""")
+  if code=="447110": return (
+   f"Gas stations with convenience stores are a common SBA acquisition. Here's what {c(a['n']+b['n'])} SBA 7(a) loans and {c(e['n']+f['n'])} SBA 504 loans since FY2010, plus Census counts, show. SBA files use both the 2017 code (447110) and the 2022 code (457110); we combined them.",
+   f"""<li>Losses were below average: {p(a['co_rate'])} of FY2010-2019 7(a) loans were charged off by count vs {p(A10['co_rate'])} for all 7(a) loans, and {p(a['co_dollar'])} of dollars vs {p(A10['co_dollar'])}. FY2010-2019 504 loans charged off at {p(e['co_rate'])} vs {p(D['ALL504']['504_fy10_19']['co_rate'])} for all 504 loans.</li>
+<li>Buyouts are a big share of the business: change-of-ownership loans were {b['own_share']:.1%} of FY2020+ 7(a) loans (all industries: {A20own:.1%}), with a median acquisition loan of {m(b['own_median'])} over a median {b['own_term']:.0f} months.</li>
+<li>About half of FY2020+ loans ({b['franchise_share']:.0%}, up from {a['franchise_share']:.0%} in FY2010-2019) carried a franchise code, but the top "franchises" in SBA's FranchiseName field are fuel-supply and branded-reseller agreements (Chevron, Sunoco, ARCO/ampm, Phillips 66), not classic franchises.</li>
+<li>The median FY2020+ initial rate was {b['rate']:.2f}%, and only {b['fixed_share']:.0%} of loans were fixed-rate.</li>
+<li>Payroll per employee was about {m(us['pay_per_emp'])} in the U.S. and {m(ut['pay_per_emp'])} in Utah (2023), the second lowest of our deep dives after fitness centers. Utah stations were bigger on average ({ut['emp_per_est']:.1f} employees vs {us['emp_per_est']:.1f} nationally) and fewer were under 10 employees ({ut['share_under10']:.0%} vs {us['share_under10']:.0%}). Census payroll mixes full- and part-time staff.</li>
+<li>Inference (ours): the fuel-supply contract's term, pricing and any brand-imaging obligations, plus the environmental condition of the underground tanks, can matter as much as store sales; ask for them early.</li>""")
   return (
    f"Veterinary clinics are bigger than most small businesses (about {us['emp_per_est']:.0f} employees per location on average) and borrow more. Here's what SBA 7(a) and 504 data and Census counts show for veterinary services.",
-   f"""<li>Vet loans had the lowest loss record of our industry deep dives so far: {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans.</li>
+   f"""<li>Vet loans had one of the lowest loss records of our industry deep dives (only self-storage was lower): {p(a['co_rate'])} charged off by count in FY2010-2019 vs {p(A10['co_rate'])} for all 7(a) loans.</li>
 <li>They're large and long. The FY2010-2019 median term was {a['term']:.0f} months vs {A10['term']:.0f} for all 7(a). Inference (ours): terms that long are consistent with real estate being part of many of these loans; the data doesn't say what each loan financed.</li>
 <li>The median FY2020+ change-of-ownership loan was {m(b['own_median'])}, and buyouts were {b['own_share']:.1%} of this industry's 7(a) loans.</li>
 <li>Only {us['share_under10']:.0%} of U.S. vet clinics with employees had fewer than 10 people, and {c(us['n20plus'])} had 20 or more, so this is a staffing-heavy business compared to auto repair or dental.</li>

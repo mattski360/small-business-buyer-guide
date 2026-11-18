@@ -12,9 +12,9 @@ Industry deep dives (SBA 7(a)/504 FOIA: counts, median loan, charge-off, terms, 
 7. Roofing contractors (238160) — DONE Nov 11, 2026: docs/roofing-contractor-sba-loan-data.html
 8. Daycare / child care (624410) — DONE Nov 11, 2026: docs/daycare-child-care-sba-loan-data.html
 9. Fitness centers (713940) — DONE Nov 11, 2026: docs/fitness-center-gym-sba-loan-data.html
-10. Self-storage / lessors of miniwarehouses (531130)
-11. Hotels and motels (721110)
-12. Gas stations with convenience stores (447110 / 457110)
+10. Self-storage / lessors of miniwarehouses (531130) — DONE Nov 18, 2026: docs/self-storage-facility-sba-loan-data.html
+11. Hotels and motels (721110) — DONE Nov 18, 2026: docs/hotel-motel-sba-loan-data.html
+12. Gas stations with convenience stores (447110 / 457110) — DONE Nov 18, 2026: docs/gas-station-convenience-store-sba-loan-data.html
 
 Cross-industry data pages:
 13. Industry leaderboard: 7(a) charge-off rate, FY2010-2019, top 50 NAICS by loan count
