@@ -276,6 +276,116 @@ for code,fn,name,one in DDS:
    f"{name} (NAICS {code}): SBA 7(a) and 504 loan counts, sizes, acquisition loans, and charge-off rates, plus Census establishment counts for the U.S. and Utah.",
    dd_body(code,name,one,intro,notes),SRC_DD,VDATE.get(code,V2))
 
+# ---- Cross-industry data pages (content-plan items 13-15). Data: data/cross-industry.json (made by data/analyze_cross_industry.py) ----
+X=json.load(open("data/cross-industry.json")); V6="November 25, 2026"
+SRC_X=[("SBA 7(a) & 504 FOIA loan-level data (files as of June 30, 2026)",FOIA),
+       ("SBA 7(a)/504 FOIA data dictionary (loan status, FranchiseCode and field definitions)","https://data.sba.gov/sites/default/files/uploaded_resources/7a_504_foia_data_dictionary.xlsx"),
+       ("Our analysis script and output: analyze_cross_industry.py, cross-industry.json (GitHub)","https://github.com/mattski360/small-business-buyer-guide/tree/main/data")]
+DDL={cd:fn for cd,fn,_,_ in DDS}
+OLD={"722110":"2007 NAICS code","722211":"2007 NAICS code"}
+def nm(r):
+  t=r["desc"].strip()+(f' <span class=meta>({OLD[r["naics"]]})</span>' if r["naics"] in OLD else "")
+  return f'<a href="{DDL[r["naics"]]}">{t}</a>' if r["naics"] in DDL else t
+XM="""<li>Loans counted: every loan in the file for that group, <strong>excluding cancelled, undisbursed ("COMMIT") and not-funded</strong> loans.</li>
+<li>Charge-off rate (count) = loans with status "Charged Off" ÷ loans counted. Charge-off $ rate = total gross charge-off amount ÷ total gross approved amount.</li>
+<li>SBA withholds the status of loans that are still active (shown as "EXEMPT" in the file), so a loan that hasn't charged off <em>yet</em> counts as not charged off. Groups with more withheld loans may see their rates rise.</li>"""
+LB=X["leaderboard"]; LA=LB["all"]; LR=sorted(LB["rows"],key=lambda r:r["co_rate"])
+lb_rows="".join(f"<tr><td class=n>{i}</td><td>{nm(r)}</td><td>{r['naics']}</td><td class=n>{c(r['n'])}</td><td class=n>{m(r['median'])}</td><td class=n>{p(r['co_rate'])}</td><td class=n>{p(r['co_dollar'])}</td><td class=n>{r['exempt_rate']:.0%}</td></tr>" for i,r in enumerate(LR,1))
+below=sum(r["co_rate"]<LA["co_rate"] for r in LR); top50n=sum(r["n"] for r in LR)
+lo,hi=LR[0],LR[-1]
+page("sba-loan-chargeoff-leaderboard-top-50-industries.html","SBA loan charge-off leaderboard: top 50 industries (FY2010-2019)",
+ "Charge-off rates for SBA 7(a) loans made in FY2010-2019 in the 50 industries with the most loans, ranked from lowest to highest, from SBA's loan-level FOIA data.",
+ f"""<h1>SBA loan charge-off leaderboard: the 50 most-financed industries, ranked</h1>
+<p class=meta>SBA 7(a) loans approved FY2010-2019 · data as of June 30, 2026 · {c(top50n)} loans in these 50 industries out of {c(LA['n'])} total</p>
+<p>Which kinds of small businesses most often failed to repay an SBA 7(a) loan? We took every 7(a) loan approved in fiscal 2010 through 2019, kept the 50 six-digit NAICS industries with the most loans, and ranked them by the share that ended up charged off (written off as a loss). Most of these loans have now either been paid off or charged off, so this cohort gives a fairly complete picture.</p>
+<p>All 7(a) loans in this cohort: <strong>{p(LA['co_rate'])}</strong> charged off by count, <strong>{p(LA['co_dollar'])}</strong> of approved dollars charged off, median loan {m(LA['median'])}. {below} of the 50 industries came in below the all-loan count rate.</p>
+<h2>Ranked: lowest to highest charge-off rate</h2>
+<div class=t><table><tr><th>#</th><th>Industry</th><th>NAICS</th><th>Loans</th><th>Median loan</th><th>Charged off (count)</th><th>Charged off ($ of approved)</th><th>Status withheld</th></tr>{lb_rows}</table></div>
+<p class=meta>"Status withheld" is the share of loans SBA still lists as active ("EXEMPT"); their final outcome isn't public yet. Linked industries have their own deep-dive page.</p>
+<h2>What it shows</h2><ul>
+<li>Lowest: {lo['desc']} ({p(lo['co_rate'])}), followed by {LR[1]['desc'].lower()} ({p(LR[1]['co_rate'])}) and {LR[2]['desc'].lower()} ({p(LR[2]['co_rate'])}). Highest: {hi['desc'].lower()} ({p(hi['co_rate'])}), then {LR[-2]['desc'].lower()} ({p(LR[-2]['co_rate'])}) and {LR[-3]['desc'].lower()} ({p(LR[-3]['co_rate'])}).</li>
+<li>Our read (inference, not something the data proves): the low end is crowded with licensed professional practices (vets, dentists, physicians) and real-estate-heavy businesses (hotels, gas stations, child care centers), where loans tend to be larger and backed by property or a licensed owner. The high end is mostly lower-barrier businesses: residential remodelers and home builders, gyms, janitorial services, grocery and sporting-goods retail, drycleaners and restaurants.</li>
+<li>Count and dollar rates can rank differently. Remodelers and other small-loan trades lose a larger share of dollars; hotels and gas stations have big loans but rarely default.</li>
+<li>This covers every use of loan proceeds (startups, expansions, real estate, refinancing and acquisitions), not just business purchases, and it reflects 2010s economic conditions.</li></ul>
+<h2>Caveats</h2><ul>
+<li>NAICS codes in the file follow the version in use when each loan was made. Full-service and limited-service restaurants appear under both the older 2007 codes (722110, 722211) and the newer ones (722511, 722513), so restaurants show up twice. We did not merge them.</li>
+<li>{c(LB['blank_naics'])} loans in the cohort had no NAICS code and are left out.</li>
+<li>Industries with more withheld (still-active) loans, such as hotels ({next(r for r in LR if r['naics']=='721110')['exempt_rate']:.0%} withheld), have more outcomes still pending than industries whose loans have mostly closed out.</li></ul>
+<h2>How we calculated this</h2><ul><li>Source: SBA 7(a) FOIA file for FY2010-FY2019, data as of June 30, 2026.</li><li>Top 50 = the 50 NAICS codes with the most counted loans; industry names are SBA's NaicsDescription field.</li>{XM}</ul>
+<p>Related: <a href="sba-loan-chargeoff-rates-by-industry.html">charge-off rates for selected industries</a> · <a href="franchise-vs-independent-sba-loan-outcomes.html">franchise vs. independent</a> · <a href="sba-504-loans-by-industry.html">SBA 504 loans by industry</a></p>
+{aff("sba-lender-marketplace")}""",SRC_X,V6)
+
+F=X["franchise"]; f1,n1,f2,n2=F["fy10_19"]["fr"],F["fy10_19"]["non"],F["fy20p"]["fr"],F["fy20p"]["non"]
+of1,on1,of2,on2=F["fy10_19"]["own_fr"],F["fy10_19"]["own_non"],F["fy20p"]["own_fr"],F["fy20p"]["own_non"]
+def frow(lab,a,b,fmt,key): return f"<tr><td>{lab}</td><td class=n>{fmt(a[key])}</td><td class=n>{fmt(b[key])}</td></tr>"
+def ftab(a,b,sofar=""):
+  return ("<div class=t><table><tr><th>Measure</th><th>Franchise</th><th>Independent (no franchise code)</th></tr>"+frow("Loans",a,b,c,"n")+frow("Median loan",a,b,m,"median")+
+   frow("Median term",a,b,lambda x:f"{x:.0f} mo","term")+frow("Charged off (count)"+sofar,a,b,p,"co_rate")+frow("Charged off ($ of approved)"+sofar,a,b,p,"co_dollar")+
+   frow("Status withheld (still active)",a,b,lambda x:f"{x:.0%}","exempt_rate")+"</table></div>")
+FI=F["by_industry_fy10_19"]
+fi_rows="".join(f"<tr><td>{nm(d)}</td><td class=n>{c(d['fr']['n'])} ({d['fr_share']:.0%})</td><td class=n>{p(d['fr']['co_rate'])}</td><td class=n>{p(d['non']['co_rate'])}</td><td class=n>{m(d['fr']['median'])}</td><td class=n>{m(d['non']['median'])}</td></tr>" for d in FI)
+fw=sum(d['fr']['co_rate']<d['non']['co_rate'] for d in FI)
+page("franchise-vs-independent-sba-loan-outcomes.html","Franchise vs. independent businesses: SBA loan outcomes compared",
+ "Do franchise businesses repay SBA 7(a) loans more often than independents? Charge-off rates, loan sizes and acquisition loans compared, overall and within the same industry, from SBA FOIA data.",
+ f"""<h1>Franchise or independent? What SBA loan outcomes show</h1>
+<p class=meta>SBA 7(a) loans · FY2010-2019 and FY2020 to June 2026 · data as of June 30, 2026</p>
+<p>Franchises are often pitched as the safer way to own a business. SBA's loan-level data lets us check one piece of that: every 7(a) loan to a franchise carries a franchise code. Here's how franchise and independent borrowers compare.</p>
+<h2>All 7(a) loans, FY2010-2019 (the mature cohort)</h2>{ftab(f1,n1)}
+<h2>All 7(a) loans, FY2020 to June 2026</h2>{ftab(f2,n2," so far")}
+<p class=meta>About three-quarters of FY2020+ loans are still active with status withheld, so those charge-off rates will rise and can't yet be compared fairly.</p>
+<h2>Within the same industry (FY2010-2019)</h2>
+<p>Franchises cluster in some industries (restaurants, hotels, gyms) more than others, which muddies the overall comparison. This table compares like with like: every industry with at least 300 franchise and 300 independent loans in the cohort.</p>
+<div class=t><table><tr><th>Industry</th><th>Franchise loans (share of industry)</th><th>Franchise charged off</th><th>Independent charged off</th><th>Franchise median loan</th><th>Independent median loan</th></tr>{fi_rows}</table></div>
+<p class=meta>Charge-off rates are by loan count. Restaurants appear under both 2007 and 2012 NAICS codes because the file uses the code in effect when each loan was made.</p>
+<h2>Loans to buy an existing business</h2>
+<div class=t><table><tr><th>"Change of Ownership" loans</th><th>Franchise</th><th>Independent</th></tr>
+<tr><td>FY2010-2019: loans</td><td class=n>{c(of1['n'])}</td><td class=n>{c(on1['n'])}</td></tr>
+<tr><td>FY2010-2019: median loan</td><td class=n>{m(of1['median'])}</td><td class=n>{m(on1['median'])}</td></tr>
+<tr><td>FY2010-2019: charged off (count)</td><td class=n>{p(of1['co_rate'])}</td><td class=n>{p(on1['co_rate'])}</td></tr>
+<tr><td>FY2020+: loans</td><td class=n>{c(of2['n'])}</td><td class=n>{c(on2['n'])}</td></tr>
+<tr><td>FY2020+: median loan</td><td class=n>{m(of2['median'])}</td><td class=n>{m(on2['median'])}</td></tr>
+<tr><td>FY2020+: charged off so far (count)</td><td class=n>{p(of2['co_rate'])}</td><td class=n>{p(on2['co_rate'])}</td></tr></table></div>
+<p class=meta>The "Change of Ownership" label was used far less before FY2020, so the FY2010-2019 rows are a small, probably incomplete sample (see <a href="sba-acquisition-loans.html">acquisition loans</a>).</p>
+<h2>What it shows</h2><ul>
+<li>Across all FY2010-2019 7(a) loans, franchise loans were charged off <em>more</em> often by count ({p(f1['co_rate'])} vs {p(n1['co_rate'])}), and the dollar loss rates were close ({p(f1['co_dollar'])} vs {p(n1['co_dollar'])}). The data doesn't show franchises as safer overall.</li>
+<li>Within the same industry the picture is mixed: franchises had the lower charge-off rate in {fw} of {len(FI)} industries. They did better in gas stations, child care, hardware stores and barber shops, and worse in full-service restaurants (2012 code), snack bars, auto repair and janitorial.</li>
+<li>Franchise loans were much larger: median {m(f1['median'])} vs {m(n1['median'])} in FY2010-2019. Our inference: that likely reflects franchise borrowers financing build-out, equipment and franchise fees together, though the data doesn't show what each loan paid for.</li>
+<li>For business purchases, franchise and independent acquisition loans had similar charge-off rates in FY2010-2019 ({p(of1['co_rate'])} vs {p(on1['co_rate'])}), but that sample is small.</li>
+<li>Our inference, not a finding: the industry and the deal seem to matter more than whether there's a brand on the sign. In gyms, and in restaurants under the current NAICS codes, franchises did not outperform independents (under the older 2007 restaurant codes they did somewhat better).</li></ul>
+<h2>How we calculated this</h2><ul><li>Franchise = the loan's FranchiseCode field is filled in; independent = blank. We didn't break out individual brands: the same brand often appears under several codes and spellings.</li>{XM}</ul>
+{aff("franchise-research-or-lender")}""",SRC_X,V6)
+
+P=X["504"]; P1,P2=P["fy10_19"],P["fy20p"]; Pa1,Pa2=P1["all"],P2["all"]
+p_rows="".join(f"<tr><td>{nm(r)}</td><td class=n>{c(r['n'])}</td><td class=n>{m(r['median'])}</td><td class=n>{m(r['proj_median'])}</td><td class=n>{p(r['co_rate'])}</td><td class=n>{p(r['co_dollar'])}</td><td class=n>{p(r['7a_co_rate'])}</td></tr>" for r in P1["rows"])
+p2_rows="".join(f"<tr><td>{nm(r)}</td><td class=n>{c(r['n'])}</td><td class=n>{m(r['median'])}</td><td class=n>{m(r['proj_median'])}</td><td class=n>{r['own_share']:.1%}</td></tr>" for r in P2["rows"])
+fy_rows="".join(f"<tr><td>{fy}</td><td class=n>{c(v['n'])}</td><td class=n>{m(v['median'])}</td><td class=n>{p(v['co_rate'])}</td><td class=n>{v['exempt_rate']:.0%}</td></tr>" for fy,v in P["by_fy"].items())
+lower=sum(r['co_rate']<r['7a_co_rate'] for r in P1["rows"])
+page("sba-504-loans-by-industry.html","SBA 504 loans by industry: sizes, project costs and outcomes",
+ "Which industries use SBA 504 real-estate and equipment loans most, how big the loans and projects are, and how often they were charged off, from SBA's 504 FOIA data.",
+ f"""<h1>SBA 504 loans by industry: sizes and outcomes</h1>
+<p class=meta>SBA 504 loans approved FY2010 to June 2026 · data as of June 30, 2026</p>
+<p>The SBA 504 program finances owner-occupied real estate and major equipment. A typical project is split three ways: a bank first mortgage, a second loan from a Certified Development Company (CDC, the SBA-backed piece), and the buyer's own cash. Buying a business that owns its building, or buying the building along with the business, is where 504 comes into play.</p>
+<h2>FY2010-2019 loans: top 25 industries by count</h2>
+<p>All 504 loans in this cohort: {c(Pa1['n'])} loans, median CDC loan {m(Pa1['median'])}, median CDC + bank amount {m(Pa1['proj_median'])}, <strong>{p(Pa1['co_rate'])}</strong> charged off by count ({p(Pa1['co_dollar'])} of CDC dollars). For comparison, {p(LA['co_rate'])} of all 7(a) loans from the same years were charged off.</p>
+<div class=t><table><tr><th>Industry</th><th>504 loans</th><th>Median CDC loan</th><th>Median CDC + bank loan</th><th>504 charged off (count)</th><th>504 charged off ($)</th><th>7(a) charged off, same years</th></tr>{p_rows}</table></div>
+<p class=meta>"CDC + bank loan" adds the CDC loan to the third-party (bank) loan amount SBA reports. The borrower's down payment isn't in the data, so the full project cost is larger.</p>
+<h2>FY2020 to June 2026: top 25 industries by count</h2>
+<p>All 504 loans since FY2020: {c(Pa2['n'])} loans, median CDC loan {m(Pa2['median'])}, median CDC + bank amount {m(Pa2['proj_median'])}, median term {Pa2['term']:.0f} months (FY2010-2019: {Pa1['term']:.0f}). Charge-offs so far are too few to compare ({p(Pa2['co_rate'])}).</p>
+<div class=t><table><tr><th>Industry</th><th>504 loans</th><th>Median CDC loan</th><th>Median CDC + bank loan</th><th>Flagged "Change of Ownership"</th></tr>{p2_rows}</table></div>
+<h2>Outcomes by approval year</h2>
+<div class=t><table><tr><th>Fiscal year</th><th>504 loans</th><th>Median CDC loan</th><th>Charged off (count)</th><th>Status withheld</th></tr>{fy_rows}</table></div>
+<p class=meta>Read this as a maturity effect, not a trend in loan quality: 504 loans run 20-25 years, so most loans from recent years are still active and their status is withheld.</p>
+<h2>What it shows</h2><ul>
+<li>504 loans were charged off far less often than 7(a) loans. Among the top 25 504 industries in FY2010-2019, the 504 rate was lower than the same industry's 7(a) rate in {lower} of 25. Dentists ({p(next(r for r in P1['rows'] if r['naics']=='621210')['co_rate'])}), self-storage, insurance agencies and engineering firms were among the lowest.</li>
+<li>Our inference: 504 loans are secured by real estate or long-lived equipment and sit behind a bank first mortgage plus the owner's equity, so they should hold up better than general-purpose 7(a) loans. Long terms also mean many FY2010s loans are still active, so these rates may still rise.</li>
+<li>Hotels lead on size: median CDC loan {m(next(r for r in P1['rows'] if r['naics']=='721110')['median'])} (FY2010-2019) and {m(next(r for r in P2['rows'] if r['naics']=='721110')['median'])} since FY2020.</li>
+<li>Buyouts are a small slice of 504: only {Pa2['own_share']:.1%} of FY2020+ 504 loans were flagged "Change of Ownership," highest in hotels, gas stations and car washes. Most business purchases are financed with 7(a) (see <a href="sba-acquisition-loans.html">acquisition loans</a>).</li></ul>
+<h2>How we calculated this</h2><ul><li>Source: SBA 504 FOIA file, FY2010 to present, data as of June 30, 2026. The 504 amount (GrossApproval) is the CDC portion only.</li>
+<li>Gas stations: the newer 2022 NAICS code 457110 is merged into 447110.</li>{XM}</ul>
+<p>Related: <a href="sba-loan-chargeoff-leaderboard-top-50-industries.html">7(a) charge-off leaderboard</a> · <a href="sba-loan-size-and-terms-by-industry.html">loan sizes &amp; terms</a></p>
+{aff("sba-504-lender-or-cdc")}""",SRC_X,V6)
+XS=[("sba-loan-chargeoff-leaderboard-top-50-industries.html","SBA loan charge-off leaderboard: top 50 industries"),("franchise-vs-independent-sba-loan-outcomes.html","Franchise vs. independent: SBA loan outcomes"),("sba-504-loans-by-industry.html","SBA 504 loans by industry")]
+
 page("index.html","Data-driven guides for buying a small business","Independent, data-first guides for small-business buyers: industry outcomes, sale multiples, and how deals get financed.",
  f"""<h1>Buying a small business? Start with the data.</h1>
 <p>Plain, sourced numbers for buyers: which industries hold up, what businesses sell for, and how deals actually get financed. Every number links to its public source.</p>
@@ -284,7 +394,7 @@ page("index.html","Data-driven guides for buying a small business","Independent,
 <li><a href="sba-acquisition-loans.html">SBA loans used to buy a business</a>: {c(r20['ALL']['own']['n'])} since FY2020, median {m(r20['ALL']['own']['median'])}</li>
 <li><a href="sba-loan-size-and-terms-by-industry.html">Loan sizes, terms and rates by industry</a></li>
 <li><a href="what-small-businesses-sell-for.html">What small businesses sell for (Q3 2026)</a></li></ul>
-<h2>Industry deep dives</h2><ul>"""+"".join(f'<li><a href="{fn}">{nm}</a>: median FY2020+ acquisition loan {m(D[cd]["7a_fy20p"]["own_median"])}, FY2010-2019 charge-off rate {p(D[cd]["7a_fy10_19"]["co_rate"])}</li>' for cd,fn,nm,_ in DDS)+"""</ul>""",
+<h2>Industry deep dives</h2><ul>"""+"".join(f'<li><a href="{fn}">{nm}</a>: median FY2020+ acquisition loan {m(D[cd]["7a_fy20p"]["own_median"])}, FY2010-2019 charge-off rate {p(D[cd]["7a_fy10_19"]["co_rate"])}</li>' for cd,fn,nm,_ in DDS)+"""</ul><h2>Cross-industry data</h2><ul>"""+"".join(f'<li><a href="{h}">{t}</a></li>' for h,t in XS)+"""</ul>""",
  [("SBA 7(a) FOIA data",FOIA),("BizBuySell Insight Report",BBS),("Census County Business Patterns 2023",CBP)])
 
 page("disclaimer.html","Disclaimer","Disclaimer","""<h1>Disclaimer</h1><p>Small Business Buyer Guide is an independent informational site. It is not affiliated with or endorsed by the U.S. Small Business Administration, any lender, broker, or marketplace.</p>

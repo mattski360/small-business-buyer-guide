@@ -17,14 +17,14 @@ Industry deep dives (SBA 7(a)/504 FOIA: counts, median loan, charge-off, terms, 
 12. Gas stations with convenience stores (447110 / 457110) — DONE Nov 18, 2026: docs/gas-station-convenience-store-sba-loan-data.html
 
 Cross-industry data pages:
-13. Industry leaderboard: 7(a) charge-off rate, FY2010-2019, top 50 NAICS by loan count
-14. Franchise vs non-franchise loan outcomes (FranchiseCode field)
-15. SBA 504 loans: sizes and outcomes by industry
+13. Industry leaderboard: 7(a) charge-off rate, FY2010-2019, top 50 NAICS by loan count — DONE Nov 25, 2026: docs/sba-loan-chargeoff-leaderboard-top-50-industries.html
+14. Franchise vs non-franchise loan outcomes (FranchiseCode field) — DONE Nov 25, 2026: docs/franchise-vs-independent-sba-loan-outcomes.html
+15. SBA 504 loans: sizes and outcomes by industry — DONE Nov 25, 2026: docs/sba-504-loans-by-industry.html
 16. Change-of-ownership loans by state: counts and median size
 17. Top lenders for change-of-ownership loans nationally (BankName)
 18. Loan size distribution for acquisitions (percentiles)
 19. Quarterly "What businesses sell for" update (each new BizBuySell Insight Report)
 20. Census Business Dynamics: business survival/exit rates by industry (Census BDS)
 
-Refresh: re-run data/analyze_sba_7a.py and data/analyze_industries.py (needs the 504 FOIA file and Census CBP files) each quarter when SBA posts new FOIA files.
+Refresh: re-run data/analyze_sba_7a.py, data/analyze_industries.py and data/analyze_cross_industry.py (needs the 504 FOIA file and Census CBP files) each quarter when SBA posts new FOIA files.
 Affiliate slots in HTML are marked `<!-- AFFILIATE-SLOT:name -->`.
